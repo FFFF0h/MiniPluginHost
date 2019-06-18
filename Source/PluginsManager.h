@@ -35,7 +35,6 @@ public:
 
 private:
 	ScopedPointer<KnownPluginList> pluginList;
-	ScopedPointer<AudioPluginFormat> pluginFormat;
 	OwnedArray<PluginDescription> descriptions;
 
 	XmlElement* convertStringToXmlElement(char* data);

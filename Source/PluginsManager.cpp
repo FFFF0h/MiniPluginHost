@@ -17,7 +17,6 @@
 PluginsManager::PluginsManager()
 {
 	pluginList = new KnownPluginList();
-	pluginFormat = new VST3PluginFormat();
 	descriptions = OwnedArray<PluginDescription>();
 }
 
@@ -32,7 +31,15 @@ PluginsManager::~PluginsManager()
 */
 bool PluginsManager::scanAndAdd(char* filePath, bool dontRescanIfAlreadyInList)
 {
-	return pluginList->scanAndAddFile(filePath, dontRescanIfAlreadyInList, descriptions, *pluginFormat);
+	AudioPluginFormatManager formatManager;
+	formatManager.addDefaultFormats();
+	for (int i = 0; i < formatManager.getNumFormats(); ++i)
+		pluginList->scanAndAddFile(filePath, dontRescanIfAlreadyInList, descriptions, *formatManager.getFormat(i));
+
+	if (descriptions.size() > 0)
+		return true;
+
+	return false;
 }
 
 bool PluginsManager::scanDirectory(char* path, bool dontRescanIfAlreadyInList, bool searchRecursive)
@@ -40,23 +47,24 @@ bool PluginsManager::scanDirectory(char* path, bool dontRescanIfAlreadyInList, b
 	int numPluginsScanned = 0;
 	FileSearchPath searchPath = FileSearchPath(path);
 
-	PluginDirectoryScanner* scanner = new PluginDirectoryScanner(	*pluginList, 
-																	*pluginFormat, 
-																	searchPath, 
-																	searchRecursive, 
-																	File());
-	bool shouldSearch = true;
-	String scannedPluginName = "";
-
-	while(shouldSearch)
+	AudioPluginFormatManager formatManager;
+	formatManager.addDefaultFormats();
+	for (int i = 0; i < formatManager.getNumFormats(); ++i)
 	{
-		shouldSearch = scanner->scanNextFile(dontRescanIfAlreadyInList, scannedPluginName);
+		PluginDirectoryScanner* scanner = new PluginDirectoryScanner(*pluginList, *formatManager.getFormat(i), searchPath, searchRecursive, File());
+		bool shouldSearch = true;
+		String scannedPluginName = "";
 
-		if (shouldSearch)
-			numPluginsScanned++;
+		while (shouldSearch)
+		{
+			shouldSearch = scanner->scanNextFile(dontRescanIfAlreadyInList, scannedPluginName);
+
+			if (shouldSearch)
+				numPluginsScanned++;
+		}
+
+		delete scanner;
 	}
-
-	delete scanner;
 	return numPluginsScanned >= 1; // TODO: This returns false when one correct vst was scanned
 }
 

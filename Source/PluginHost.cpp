@@ -17,7 +17,7 @@
 PluginHost::PluginHost()
 {
 	formatManager = new AudioPluginFormatManager;
-	formatManager->addFormat(new VST3PluginFormat);
+	formatManager->addDefaultFormats();
 	audioData = new AudioBuffer<float>(1, 512);
 	midiData = new MidiBuffer();
 }

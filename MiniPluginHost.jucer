@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="uuVKjy" name="MiniPluginHost" displaySplashScreen="1" reportAppUsage="1"
-              splashScreenColour="Dark" projectType="dll" version="1.0.0" bundleIdentifier="com.yourcompany.MiniPluginHost"
+<JUCERPROJECT id="uuVKjy" name="MiniPluginHost" splashScreenColour="Dark" projectType="dll"
+              version="1.0.0" bundleIdentifier="com.yourcompany.MiniPluginHost"
               includeBinaryInAppConfig="1" cppLanguageStandard="11" companyCopyright=""
-              jucerVersion="5.2.0">
+              jucerVersion="5.4.3">
   <MAINGROUP id="jUZ2qA" name="MiniPluginHost">
     <GROUP id="{F9977E87-9151-89A9-4EA3-0FC7CCEA7A56}" name="Source">
       <FILE id="wTi9Y7" name="MiniPluginHostApi.cpp" compile="1" resource="0"
@@ -20,7 +20,7 @@
   </MAINGROUP>
   <EXPORTFORMATS>
     <VS2017 targetFolder="Builds/VisualStudio2017" windowsTargetPlatformVersion="10.0.16299.0"
-            vst3Folder="C:\Users\Rothmann\Documents\PROJECTS\Development\SDK\VST3_SDK">
+            vst3Folder="..\Steinberg\VST_SDK\VST3_SDK">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
                        debugInformationFormat="ProgramDatabase" enablePluginBinaryCopyStep="0"
@@ -61,6 +61,8 @@
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_PLUGINHOST_VST="enabled" JUCE_PLUGINHOST_VST3="enabled"
-               JUCE_PLUGINHOST_AU="disabled"/>
+  <JUCEOPTIONS JUCE_PLUGINHOST_VST="1" JUCE_PLUGINHOST_VST3="1" JUCE_PLUGINHOST_AU="0"/>
+  <LIVE_SETTINGS>
+    <WINDOWS/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>
